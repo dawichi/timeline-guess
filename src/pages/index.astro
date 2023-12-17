@@ -1,17 +1,23 @@
 ---
+import Card from '../components/Card.astro';
 import Layout from '../layouts/Layout.astro'
 
 import { game } from '../scripts/game'
+
+// const cardDisplayed = game.getRandomCard()
+
+// console.log(game.getRandomCard())
 ---
 
 <Layout>
     <div class="container mx-auto grid gap-2">
-        {game.data.map(card => (
-            <div class="bg-zinc-700 w-80 p-4 mx-auto rounded shadow shadow">
-                <h2 class="text-xl font-bold">{card.title}</h2>
-                <p>{card.year}</p>
-                <img src={`/images/cards/${card.image}`} class="w-full rounded" />
-            </div>
+        {game.placedCards.map(card => (
+            <Card {card} />
         ))}
     </div>
+
+    <pre class="bg-zinc-800">
+        {JSON.stringify(game.placedCards)}
+        <!-- {cardDisplayed.title} -->
+    </pre>
 </Layout>
