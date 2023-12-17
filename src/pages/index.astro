@@ -1,10 +1,17 @@
 ---
 import Layout from '../layouts/Layout.astro'
 
-// Prerender this page at build time
-export const prerender = true
+import { game } from '../scripts/game'
 ---
 
 <Layout>
-    hi
+    <div class="container mx-auto grid gap-2">
+        {game.data.map(card => (
+            <div class="bg-zinc-700 w-80 p-4 mx-auto rounded shadow shadow">
+                <h2 class="text-xl font-bold">{card.title}</h2>
+                <p>{card.year}</p>
+                <img src={`/images/cards/${card.image}`} class="w-full rounded" />
+            </div>
+        ))}
+    </div>
 </Layout>
