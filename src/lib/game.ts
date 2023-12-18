@@ -5,7 +5,7 @@ const initial_data = {
     deck: data,
     cards_copy: [...data],
     board: [] as Card[],
-    cardOnHand: null as Card | null,
+    hand: [] as Card[],
 }
 
 export type GameData = typeof initial_data

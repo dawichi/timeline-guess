@@ -8,52 +8,61 @@
         deck: [],
         cards_copy: [],
         board: [],
-        cardOnHand: null,
+        hand: [],
     }
     gameData.subscribe(data => (game = data))
-
-    onMount(startGame)
 
     /**
      * Start the game
      */
     function startGame(): void {
-        pickCardFromDeck()
-        placeItOnBoard()
-        pickCardFromDeck()
-        placeItOnBoard()
-        pickCardFromDeck()
-        placeItOnBoard()
-        pickCardFromDeck()
-        placeItOnBoard()
-        pickCardFromDeck()
+        startingCard()
+        pickCardsFromDeck(3)
     }
     // ------------------------------------
     //                UTILS
     // ------------------------------------
-    function pickCardFromDeck() {
+    function pickCardsFromDeck(quantity: number) {
+        while (quantity > 0) {
+            // Pick a random card from the deck
+            const index = Math.floor(Math.random() * game.deck.length)
+    
+            // Move the card from the deck to the hand
+            gameData.update(data => {
+                data.hand.push(data.deck[index]!)
+                data.deck.splice(index, 1)
+                return data
+            })
+
+            quantity--
+        }
+    }
+
+    function startingCard() {
         // Pick a random card from the deck
         const index = Math.floor(Math.random() * game.deck.length)
 
-        // Move the card from the deck to the hand
+        // Move the card from the deck to the board
         gameData.update(data => {
-            data.cardOnHand = data.deck[index]!
+            data.board.push(data.deck[index]!)
             data.deck.splice(index, 1)
             return data
         })
     }
 
-    function placeItOnBoard() {
-        // Place the card from your hand on the board
-        gameData.update(data => {
-            data.board.push(data.cardOnHand!)
-            data.cardOnHand = null
-            return data
-        })
-    }
+    // function placeItOnBoard() {
+    //     // Place the card from your hand on the board
+    //     gameData.update(data => {
+    //         data.board.push(data.cardOnHand!)
+    //         data.cardOnHand = null
+    //         return data
+    //     })
+    // }
 
     // https://www.youtube.com/watch?v=jfYWwQrtzzY
     onMount(() => {
+        startGame()
+
         // The cards that can be dragged (the ones in your hand)
         const draggables = document.querySelectorAll('.draggable')
 
@@ -74,6 +83,7 @@
         })
 
         containers.forEach(container => {
+            console.log(container.appendChild)
             container.addEventListener('dragover', e => {
                 // Allow the drop
                 e.preventDefault()
@@ -99,8 +109,8 @@
                     const box = nextChild.getBoundingClientRect()
                     const offset = x - box.left - box.width / 2
 
-                    // If the offset is negative, it means that the card is above the middle of the card
-                    // If the offset is positive, it means that the card is below the middle of the card
+                    // If the offset is negative, the card is above the middle of the card
+                    // If the offset is positive, the card is below the middle of the card
                     if (offset < 0 && offset > closest.offset) {
                         return { offset: offset, element: nextChild }
                     } else {
@@ -113,42 +123,33 @@
 
         // Check if the cards on the board are sorted correctly
         function validateCardsSorting() {
-            console.log('validating...')
             const cards = [...document.getElementById('board')!.querySelectorAll('.card')!]
+            console.log('validating length...', cards.length)
         }
-    })
+    }) 
 
     const styles = {
-        base: 'text-2xl font-bold card p-4 rounded bg-zinc-500 w-24 h-24 flex items-center justify-center'
+        base: 'text-2xl font-bold card p-4 rounded bg-zinc-500 w-24 h-24 flex items-center justify-center',
     }
 </script>
 
-<!-- <div class="flex pb-40">
-    <aside class="w-[400px] min-h-screen">
-        <h1 class="text-xl fond-bold text-center p-4">Next Card!</h1>
-        {#if $gameData.cardOnHand}
-            <Card card={$gameData.cardOnHand} />
-        {/if}
-    </aside>
-
-    <aside class="flex flex-wrap min-h-screen w-full justify-center items-start p-4">
-        <ul id="board">
-            {#each $gameData.board as card}
-                <Card {card} showYear={true} />
-            {/each}
-        </ul>
-    </aside>
-</div> -->
-
+<!-- Here the cards will appear, you can sort them freely -->
 <h1 class="font-bold my-4">PLAYER'S HAND</h1>
-<div id="hand" class="draggable-box bg-zinc-700 p-8 flex flex-wrap gap-4">
+<section id="hand" class="draggable-box bg-zinc-800 p-8 flex flex-wrap gap-4">
     <div class="{styles.base} draggable cursor-move" draggable="true">1</div>
     <div class="{styles.base} draggable cursor-move" draggable="true">2</div>
     <div class="{styles.base} draggable cursor-move" draggable="true">4</div>
     <div class="{styles.base} draggable cursor-move" draggable="true">5</div>
-</div>
+    <!-- {#each $gameData.hand as card}
+        <Card {card} showYear={false} />
+    {/each} -->
+</section>
 
+<!-- Here you need to place the cards sorted to gain points -->
 <h1 class="font-bold my-4">BOARD</h1>
-<div id="board" class="draggable-box bg-zinc-700 p-8">
-    <div class="{styles.base}" draggable="false">3</div>
-</div>
+<section id="board" class="draggable-box bg-zinc-800 p-8 flex flex-wrap gap-4">
+    <div class="{styles.base} text-black" draggable="false">3</div>
+    <!-- {#each $gameData.board as card}
+        <Card {card} showYear={true} />
+    {/each} -->
+</section>
