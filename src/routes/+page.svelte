@@ -1,7 +1,7 @@
 <script lang="ts">
     import Card from '$lib/components/Card.svelte'
-    import Image from '$lib/components/Image.svelte'
-    import { gameData, type GameData } from '$lib/game'
+    import Modal from '$lib/components/Modal.svelte'
+    import { gameData, initial_data, type GameData } from '$lib/context/game'
     import { onMount } from 'svelte'
 
     // Game is needed because you cannot use $gameData directly in the script
@@ -10,6 +10,7 @@
         cards_copy: [],
         board: [],
         hand: [],
+        modal: null,
     }
     gameData.subscribe(data => (game = data))
 
@@ -82,7 +83,6 @@
         })
 
         containers.forEach(container => {
-            console.log(container.appendChild)
             container.addEventListener('dragover', e => {
                 // Allow the drop
                 e.preventDefault()
@@ -96,6 +96,22 @@
                     container.insertBefore(draggable, afterElement)
                 }
             })
+        })
+    }
+
+    // Delete all event listeners from the cards and containers
+    function cleanEventListeners() {
+        const draggables = document.querySelectorAll('.draggable')
+        const containers = document.querySelectorAll('.draggable-box')
+
+        draggables.forEach(draggable => {
+            const new_element = draggable.cloneNode(true)
+            draggable.parentNode!.replaceChild(new_element, draggable)
+        })
+
+        containers.forEach(container => {
+            const new_element = container.cloneNode(true)
+            container.parentNode!.replaceChild(new_element, container)
         })
     }
 
@@ -124,44 +140,55 @@
     // Check if the cards on the board are sorted correctly
     function validateCardsSorting() {
         const cards = [...document.getElementById('board')!.querySelectorAll('.card')!]
-        console.log('validating length...', cards.length)
+
+        if (cards.length <= 1) return
+        
+        // Get the dates for each card      
+        cards.forEach(card => {
+            if (card.querySelector('p')!.textContent === '?') {
+                const card_data = game.cards_copy.find(c => c.title === card.querySelector('h2')!.textContent!)
+                card.querySelector('p')!.textContent = String(card_data!.year) 
+            }
+        })
+
+        cards.map(card => Number(card.querySelector('p')!.textContent!))
+        const result = cards.reduce((prev: any, curr: any) => {
+            if (Number(prev.querySelector('p')!.textContent!) > Number(curr.querySelector('p')!.textContent!)) {
+                // The cards are not sorted correctly
+                gameData.update(data => initial_data)
+            } else {
+                // The cards are sorted correctly
+                return curr
+            }
+        })
     }
 
     onMount(() => {
-        startGame()
+        startGame() 
+        // alert('Drag the cards from your hand to the board, sorting them by date! \n Try to get the highest score possible!')
 
-        // Wait 2s
+        // Wait 2s, so the cards are rendered
         setTimeout(() => {
             // Assign the event listeners
             assignEventListeners()
         }, 200)
     })
-
     const styles = {
         base: 'text-2xl font-bold card p-4 rounded bg-zinc-500 w-24 h-24 flex items-center justify-center',
     }
 </script>
 
+<p>
+    In this game, you need to sort the cards in the board by date. If you miss, you lose.
+</p>
+
 <!-- Here the cards will appear, you can sort them freely -->
 <h1 class="font-bold my-4">PLAYER'S HAND</h1>
-<section id="hand" class="draggable-box bg-zinc-800 p-8 flex gap-4 overflow-x-scroll">
-    <div class="{styles.base} draggable cursor-move" draggable="true">1</div>
+<section id="hand" class="draggable-box bg-zinc-800 p-8 flex gap-4 overflow-x-auto">
+    <!-- <div class="{styles.base} draggable cursor-move" draggable="true">1</div>
     <div class="{styles.base} draggable cursor-move" draggable="true">2</div>
     <div class="{styles.base} draggable cursor-move" draggable="true">4</div>
-    <div class="{styles.base} draggable cursor-move" draggable="true">5</div>
-
-    <div
-        class="bg-zinc-500 w-42 h-full p-2 rounded shadow card draggable cursor-move flex flex-col items-center justify-center"
-        draggable="true"
-    >
-        <h2 class="font-bold pb-2">Destruction of pompeii</h2>
-        <div class="w-32 h-32">
-            <Image src="/images/cards/pompeii.png" />
-        </div>
-        <p class="text-center pt-1">year: 1700</p>
-    </div>
-
-    <Card card={{ title: 'Rome whatever', image: 'coliseum.png', year: 174230 }} showYear={false} />
+    <div class="{styles.base} draggable cursor-move" draggable="true">5</div> -->
 
     {#each $gameData.hand as card}
         <Card {card} showYear={false} />
@@ -170,9 +197,13 @@
 
 <!-- Here you need to place the cards sorted to gain points -->
 <h1 class="font-bold my-4">BOARD</h1>
-<section id="board" class="draggable-box bg-zinc-800 p-8 flex gap-4 overflow-x-scroll">
-    <div class="{styles.base} text-black" draggable="false">3</div>
+<section id="board" class="draggable-box bg-zinc-800 p-8 flex gap-4 overflow-x-auto">
+    <!-- <div class="{styles.base} text-black" draggable="false">3</div> -->
     {#each $gameData.board as card}
         <Card {card} showYear={true} />
     {/each}
 </section>
+
+<button on:click={() => gameData.update(data => ({ ...data, modal: 'game over' }))}>almendra</button>
+
+<Modal />
