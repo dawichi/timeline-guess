@@ -155,7 +155,10 @@
         const result = cards.reduce((prev: any, curr: any) => {
             if (Number(prev.querySelector('p')!.textContent!) > Number(curr.querySelector('p')!.textContent!)) {
                 // The cards are not sorted correctly
-                gameData.update(data => initial_data)
+                gameData.update(data => {
+                    data.modal = 'game over'
+                    return data
+                })
             } else {
                 // The cards are sorted correctly
                 return curr
