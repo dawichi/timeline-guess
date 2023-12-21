@@ -5,15 +5,4 @@ interface Props {
 
 const { src } = Astro.props;
 ---
-<div class="rounded bgimage h-full w-full" style={`background-image: url(${src});`} />
-
-<style>
-    .bgimage {
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-        height: 100%;
-        width: 100%;
-        overflow: hidden;
-    }
-</style>
+<div class="rounded bg-contain bg-no-repeat bg-center h-full w-full overflow-hidden" style={`background-image: url(${src});`} />
