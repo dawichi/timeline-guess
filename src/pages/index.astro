@@ -12,26 +12,12 @@ const styles = {
     <!-- Here the cards will appear, you can sort them freely -->
     <h1 class='my-4 font-bold'>PLAYER'S HAND</h1>
     <!-- {$gameData.hand.map(x => x.title)} -->
-    <section id='hand' class='draggable-box flex gap-4 overflow-x-auto bg-zinc-800 p-8'>
-        <div class={`${styles.base} draggable cursor-move`} draggable='true'>1</div>
-        <div class={`${styles.base} draggable cursor-move`} draggable='true'>2</div>
-        <div class={`${styles.base} draggable cursor-move`} draggable='true'>4</div>
-        <div class={`${styles.base} draggable cursor-move`} draggable='true'>5</div>
-
-        <!-- {#each $gameData.hand as card}
-            <Card {card} showYear={false} />
-        {/each} -->
-    </section>
+    <section id='hand' class='draggable-box flex gap-4 overflow-x-auto bg-zinc-800 p-8'></section>
 
     <!-- Here you need to place the cards sorted to gain points -->
     <h1 class='my-4 font-bold'>BOARD</h1>
     <!-- {$gameData.board.map(x => x.title)} -->
-    <section id='board' class='draggable-box flex gap-4 overflow-x-auto bg-zinc-800 p-8'>
-        <!-- <div class="{styles.base} text-black" draggable="false">3</div> -->
-        <!-- {#each $gameData.board as card}
-        <Card {card} showYear={true} />
-    {/each} -->
-    </section>
+    <section id='board' class='draggable-box flex gap-4 overflow-x-auto bg-zinc-800 p-8'></section>
 
     <!-- <button on:click={() => gameData.update(data => ({ ...data, modal: 'game over' }))}>almendra</button> -->
 </Layout>
