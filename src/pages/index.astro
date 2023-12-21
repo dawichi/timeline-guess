@@ -169,6 +169,28 @@ const styles = {
         }
     }
 
+    // ------------------------------------
+    //         DOM UPDATE FUNCTIONS
+    // ------------------------------------
+    const HTMLELEMENTS = {
+        createCard: (cardData, showYear = false) => {
+            const card = document.createElement('div')
+            card.className =
+                'bg-zinc-700 w-48 h-full p-2 rounded shadow card draggable cursor-move flex flex-col items-center justify-center'
+            card.draggable = true
+
+            card.innerHTML = `
+                <h2 class="font-bold pb-2 w-42 text-wrap h-14 flex items-center text-center">${cardData?.title}</h2>
+                <div class="w-32 h-32">
+                    <div class="rounded bg-contain bg-no-repeat bg-center h-full w-full overflow-hidden" style="background-image: url(/images/cards/${
+                        cardData?.image
+                    });" />
+                </div>
+                <p class="text-center font-bold pt-1">${showYear ? cardData?.year : '?'}</p>
+            `
+            return card
+        },
+    }
     function startingCard() {
         // Pick a random card from the deck
         const index = Math.floor(Math.random() * game.deck.length)
