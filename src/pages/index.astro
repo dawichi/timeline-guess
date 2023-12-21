@@ -3,10 +3,17 @@ import Layout from '../layouts/Layout.astro'
 ---
 
 <Layout>
-    <div class="w-96 mx-auto">
-        <p>You will get cards in groups of 5.</p>
-        <p>If you miss any of them, you lose.</p>
-        <p>Once you successfully sort the 5 cards, you get new 5.</p>
+    <div class="gap-4 grid lg:grid-cols-2">
+        <div>
+            <p>You will get cards in groups of 5.</p>
+            <p>If you miss any of them, you lose.</p>
+            <p>Once you successfully sort the 5 cards, you get new 5.</p>
+        </div>
+
+        <div class="grid gap-2">
+            <p>Your max Streak: <span class="text-white bg-blue-600 px-2 py-1 rounded" id="record-points">0</span></p>
+            <p>Current Streak: <span class="text-white bg-green-600 px-2 py-1 rounded" id="current-points">0</span></p>
+        </div>
     </div>
 
     <!-- Here the cards will appear, you can sort them freely -->
