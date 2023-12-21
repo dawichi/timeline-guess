@@ -205,7 +205,8 @@ const styles = {
         const box = document.getElementById(container)
 
         // Push the new cards to the DOM
-        cards.forEach(card => hand.appendChild(HTMLELEMENTS.createCard(card)))
+        const showYear = container === 'board'
+        cards.forEach(card => box.appendChild(HTMLELEMENTS.createCard(card, showYear)))
 
         // Assign the event listeners again
         cleanEventListeners()
