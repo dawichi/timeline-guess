@@ -124,15 +124,15 @@ const styles = {
      * This object will contain the game state
      *
      * @typedef {{
-     * title: string,
-     * year: number,
-     * image: string,
+     *   title: string,
+     *   year: number,
+     *   image: string,
      * }} Card
      *
      * @type {{
-     * deck: Card[],
-     * board: Card[],
-     * hand: Card[],
+     *   deck: Card[],
+     *   board: Card[],
+     *   hand: Card[],
      * }}
      */
     const game = {
@@ -146,7 +146,7 @@ const styles = {
     // ------------------------------------
     setTimeout(() => {
         // alert('Drag the cards from your hand to the board, sorting them by date! \n Try to get the highest score possible!')
-        const initial_cards_in_hand = 3
+        const initial_cards_in_hand = 5
         pickCardsFromDeck(initial_cards_in_hand, 'hand')
         renderNewCardsIn('hand', game.hand.slice(-initial_cards_in_hand))
         
@@ -301,7 +301,7 @@ const styles = {
         // Get the dates for each card
         cards.forEach(card => {
             if (card.querySelector('p').textContent === '?') {
-                const card_data = game.cards_copy.find(c => c.title === card.querySelector('h2').textContent)
+                const card_data = data.find(c => c.title === card.querySelector('h2').textContent)
                 card.querySelector('p').textContent = String(card_data.year)
             }
         })
@@ -310,12 +310,9 @@ const styles = {
         const result = cards.reduce((prev, curr) => {
             if (Number(prev.querySelector('p').textContent) > Number(curr.querySelector('p').textContent)) {
                 // The cards are not sorted correctly
-                gameData.update(data => {
-                    data.modal = 'game over'
-                    return data
-                })
+                return false
             } else {
-                // The cards are sorted correctly
+                // The cards are sorted correctly, continue
                 return curr
             }
         })
