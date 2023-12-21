@@ -146,23 +146,31 @@ const styles = {
     // ------------------------------------
     setTimeout(() => {
         // alert('Drag the cards from your hand to the board, sorting them by date! \n Try to get the highest score possible!')
-        // assignEventListeners()
-        const quantity = 3
-        pickCardsFromDeck(quantity)
-        renderNewCardsInHand(game.hand.slice(-quantity))
+        const initial_cards_in_hand = 3
+        pickCardsFromDeck(initial_cards_in_hand, 'hand')
+        renderNewCardsIn('hand', game.hand.slice(-initial_cards_in_hand))
+        
+        const initial_cards_in_board = 1
+        pickCardsFromDeck(initial_cards_in_board, 'board')
+        renderNewCardsIn('board', game.board.slice(-initial_cards_in_board))
     }, 200)
 
     // ------------------------------------
     //                UTILS
     // ------------------------------------
-    function pickCardsFromDeck(quantity) {
+    /**
+     * Pick a certain quantity of cards from the deck and insert them in hand or board
+     * @param {number} quantity 
+     * @param {'hand' | 'board'} placeThemIn
+     */
+    function pickCardsFromDeck(quantity, placeThemIn) {
         while (quantity > 0) {
             // Pick a random card from the deck
             const index = Math.floor(Math.random() * game.deck.length)
             const card = game.deck.splice(index, 1)[0]
 
             // Insert it in the hand
-            game.hand.push(card)
+            game[placeThemIn].push(card)
 
             quantity--
         }
@@ -174,16 +182,13 @@ const styles = {
     const HTMLELEMENTS = {
         createCard: (cardData, showYear = false) => {
             const card = document.createElement('div')
-            card.className =
-                'bg-zinc-700 w-48 h-full p-2 rounded shadow card draggable cursor-move flex flex-col items-center justify-center'
+            card.className = 'bg-zinc-700 w-48 h-full p-2 rounded shadow card draggable cursor-move flex flex-col items-center justify-center'
             card.draggable = true
-
             card.innerHTML = `
                 <h2 class="font-bold pb-2 w-42 text-wrap h-14 flex items-center text-center">${cardData?.title}</h2>
                 <div class="w-32 h-32">
-                    <div class="rounded bg-contain bg-no-repeat bg-center h-full w-full overflow-hidden" style="background-image: url(/images/cards/${
-                        cardData?.image
-                    });" />
+                    <div class="rounded bg-contain bg-no-repeat bg-center h-full w-full overflow-hidden" style="background-image: url(/images/cards/${cardData?.image});">
+                    </div>
                 </div>
                 <p class="text-center font-bold pt-1">${showYear ? cardData?.year : '?'}</p>
             `
@@ -191,10 +196,13 @@ const styles = {
         },
     }
 
-    // After modifying the game state adding cars to the deck, call this
-    function renderNewCardsInHand(cards) {
-        console.log(cards)
-        const hand = document.getElementById('hand')
+    /**
+     * After modifying the game state adding cars to the deck, call this
+     * @param {'hand' | 'board'} container
+     * @param {Card[]} cards 
+     */
+    function renderNewCardsIn(container, cards) {
+        const box = document.getElementById(container)
 
         // Push the new cards to the DOM
         cards.forEach(card => hand.appendChild(HTMLELEMENTS.createCard(card)))
