@@ -195,7 +195,9 @@ import Layout from '../layouts/Layout.astro'
     //          1. START THE GAME
     // ------------------------------------
     setTimeout(() => {
-        // alert('Drag the cards from your hand to the board, sorting them by date! \n Try to get the highest score possible!')
+        // Update the record
+        document.getElementById('record-points').textContent = db.getRecord() ?? 0
+
         const initial_cards_in_hand = 5
         pickCardsFromDeck(initial_cards_in_hand, 'hand')
         renderNewCardsIn('hand', game.hand.slice(-initial_cards_in_hand))
@@ -206,7 +208,7 @@ import Layout from '../layouts/Layout.astro'
     }, 200)
 
     // ------------------------------------
-    //                UTILS
+    //             GAME UTILS
     // ------------------------------------
     /**
      * Pick a certain quantity of cards from the deck and insert them in hand or board
@@ -224,6 +226,16 @@ import Layout from '../layouts/Layout.astro'
 
             quantity--
         }
+    }
+
+    // ------------------------------------
+    //           LOCAL STORAGE
+    // ------------------------------------
+    const db = {
+        getRecord: () => localStorage.getItem('record'),
+        setRecord: (record) => localStorage.setItem('record', record),
+        getCurrent: () => localStorage.getItem('current'),
+        setCurrent: (current) => localStorage.setItem('current', current),
     }
 
     // ------------------------------------
