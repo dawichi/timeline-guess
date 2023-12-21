@@ -41,7 +41,7 @@ export const data: Card[] = [
         image: 'crossbow.png',
     },
     {
-        title: 'Beginning of construction of the colossus of rhodes',
+        title: 'The colossus of rhodes construction starts',
         year: -282,
         image: 'colossus.png',
     },
@@ -106,6 +106,16 @@ export const data: Card[] = [
         image: 'eraser.png',
     },
     {
+        title: 'First hot air balloon',
+        year: 1_783,
+        image: 'hot-air-balloon.png',
+    },
+    {
+        title: 'Invention of preserves',
+        year: 1_802,
+        image: 'preserves.png',
+    },
+    {
         title: 'Napoleon becomes emperor',
         year: 1_804,
         image: 'napoleon.png',
@@ -121,14 +131,44 @@ export const data: Card[] = [
         image: 'revolver.png',
     },
     {
+        title: 'California gold rush begins',
+        year: 1_848,
+        image: 'gold-rush.png',
+    },
+    {
+        title: 'Invention of jeans',
+        year: 1_873,
+        image: 'jeans.png',
+    },
+    {
         title: 'Invention of the light bulb',
         year: 1_879,
         image: 'light-bulb.png',
     },
     {
+        title: 'first appearance of sherlock holmes',
+        year: 1_887,
+        image: 'sherlock-holmes.png',
+    },
+    {
+        title: 'Invention of the tooth tube',
+        year: 1_892,
+        image: 'tooth-tube.png',
+    },
+    {
+        title: 'Invention of the cinematograph',
+        year: 1_895,
+        image: 'cinematograph.png',
+    },
+    {
         title: 'Invention of the zeppelin',
         year: 1_900,
         image: 'zeppelin.png',
+    },
+    {
+        title: 'First fifa world cup',
+        year: 1_930,
+        image: 'fifa.png',
     },
     {
         title: 'Chernobyl accident',
