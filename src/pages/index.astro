@@ -308,7 +308,12 @@ const styles = {
 
         cards.map(card => Number(card.querySelector('p').textContent))
         const result = cards.reduce((prev, curr) => {
-            if (Number(prev.querySelector('p').textContent) > Number(curr.querySelector('p').textContent)) {
+            // A previous one already failed, no need to continue
+            if (prev === false) return false
+
+            const prev_year = Number(prev.querySelector('p').textContent)
+            const curr_year = Number(curr.querySelector('p').textContent)
+            if (prev_year > curr_year) {
                 // The cards are not sorted correctly
                 return false
             } else {
