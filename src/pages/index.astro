@@ -208,6 +208,17 @@ const styles = {
         const showYear = container === 'board'
         cards.forEach(card => box.appendChild(HTMLELEMENTS.createCard(card, showYear)))
 
+        if (container === 'board') {
+            // Remove the .draggable class from the cards in the board
+            const cards = document.getElementById('board').querySelectorAll('.card')
+            cards.forEach(card => {
+                card.classList.remove('draggable')
+                card.classList.remove('cursor-move')
+                card.classList.add('border')
+                card.draggable = false
+            })
+        }
+
         // Assign the event listeners again
         cleanEventListeners()
         assignEventListeners()
