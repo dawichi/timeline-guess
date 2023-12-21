@@ -191,6 +191,20 @@ const styles = {
             return card
         },
     }
+
+    // After modifying the game state adding cars to the deck, call this
+    function renderNewCardsInHand(cards) {
+        console.log(cards)
+        const hand = document.getElementById('hand')
+
+        // Push the new cards to the DOM
+        cards.forEach(card => hand.appendChild(HTMLELEMENTS.createCard(card)))
+
+        // Assign the event listeners again
+        cleanEventListeners()
+        assignEventListeners()
+    }
+
     function startingCard() {
         // Pick a random card from the deck
         const index = Math.floor(Math.random() * game.deck.length)
