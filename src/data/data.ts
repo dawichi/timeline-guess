@@ -41,6 +41,11 @@ export const data: Card[] = [
         image: 'crossbow.png',
     },
     {
+        title: 'Beginning of construction of the colossus of rhodes',
+        year: -282,
+        image: 'colossus.png',
+    },
+    {
         title: 'Invention of parchment',
         year: -200,
         image: 'parchment.png',
@@ -71,6 +76,11 @@ export const data: Card[] = [
         image: 'chess.png',
     },
     {
+        title: 'Appearance of zero',
+        year: 628,
+        image: 'zero.png',
+    },
+    {
         title: 'Invention of the hourglass',
         year: 900,
         image: 'hourglass.png',
@@ -91,6 +101,16 @@ export const data: Card[] = [
         image: 'steam-engine.png',
     },
     {
+        title: 'Invention of the eraser',
+        year: 1_770,
+        image: 'eraser.png',
+    },
+    {
+        title: 'Napoleon becomes emperor',
+        year: 1_804,
+        image: 'napoleon.png',
+    },
+    {
         title: 'Invention of shampoo',
         year: 1_814,
         image: 'shampoo.png',
@@ -99,5 +119,25 @@ export const data: Card[] = [
         title: 'Invention of the revolver',
         year: 1_836,
         image: 'revolver.png',
+    },
+    {
+        title: 'Invention of the light bulb',
+        year: 1_879,
+        image: 'light-bulb.png',
+    },
+    {
+        title: 'Invention of the zeppelin',
+        year: 1_900,
+        image: 'zeppelin.png',
+    },
+    {
+        title: 'Chernobyl accident',
+        year: 1_986,
+        image: 'chernobyl.png',
+    },
+    {
+        title: 'Titanic movie premiere',
+        year: 1_997,
+        image: 'titanic-movie.png',
     },
 ]
