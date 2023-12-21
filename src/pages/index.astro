@@ -1,0 +1,310 @@
+---
+import Layout from '../layouts/Layout.astro'
+import Image from '../components/Image.astro'
+import Card from '../components/Card.astro'
+
+const styles = {
+    base: 'text-2xl font-bold card p-4 rounded bg-zinc-500 w-24 h-24 flex items-center justify-center',
+}
+---
+
+<Layout>
+    <p>In this game, you need to sort the cards in the board by date. If you miss, you lose.</p>
+
+    <!-- Here the cards will appear, you can sort them freely -->
+    <h1 class='my-4 font-bold'>PLAYER'S HAND</h1>
+    <!-- {$gameData.hand.map(x => x.title)} -->
+    <section id='hand' class='draggable-box flex gap-4 overflow-x-auto bg-zinc-800 p-8'>
+        <div class={`${styles.base} draggable cursor-move`} draggable='true'>1</div>
+        <div class={`${styles.base} draggable cursor-move`} draggable='true'>2</div>
+        <div class={`${styles.base} draggable cursor-move`} draggable='true'>4</div>
+        <div class={`${styles.base} draggable cursor-move`} draggable='true'>5</div>
+
+        <!-- {#each $gameData.hand as card}
+            <Card {card} showYear={false} />
+        {/each} -->
+    </section>
+
+    <!-- Here you need to place the cards sorted to gain points -->
+    <h1 class='my-4 font-bold'>BOARD</h1>
+    <!-- {$gameData.board.map(x => x.title)} -->
+    <section id='board' class='draggable-box flex gap-4 overflow-x-auto bg-zinc-800 p-8'>
+        <!-- <div class="{styles.base} text-black" draggable="false">3</div> -->
+        <!-- {#each $gameData.board as card}
+        <Card {card} showYear={true} />
+    {/each} -->
+    </section>
+
+    <!-- <button on:click={() => gameData.update(data => ({ ...data, modal: 'game over' }))}>almendra</button> -->
+</Layout>
+
+<script is:inline>
+    // Copy of ../data/data.ts
+    const data = [
+        {
+            title: 'Appearance of bees',
+            year: -130_000_000,
+            image: 'bees.png',
+        },
+        {
+            title: 'First cave paintings',
+            year: -45_000,
+            image: 'cave-paintings.png',
+        },
+        {
+            title: 'Sheep domestication',
+            year: -11_000,
+            image: 'sheeps.png',
+        },
+        {
+            title: 'Invention of wine',
+            year: -6_000,
+            image: 'wine.png',
+        },
+        {
+            title: 'Invention of the wheel',
+            year: -3_500,
+            image: 'wheel.png',
+        },
+        {
+            title: 'The minotaur myth',
+            year: -1_600,
+            image: 'minotaur.png',
+        },
+        {
+            title: 'Invention of the crossbow',
+            year: -400,
+            image: 'crossbow.png',
+        },
+        {
+            title: 'Invention of parchment',
+            year: -200,
+            image: 'parchment.png',
+        },
+        {
+            title: 'Cleopatra crowned queen of egypt',
+            year: -51,
+            image: 'cleopatra.png',
+        },
+        {
+            title: 'Julius Caesar is named dictator for life',
+            year: -47,
+            image: 'julius-caesar.png',
+        },
+        {
+            title: 'Destruction of pompeii',
+            year: 79,
+            image: 'pompeii.png',
+        },
+        {
+            title: 'Inauguration of the coliseum',
+            year: 80,
+            image: 'coliseum.png',
+        },
+        {
+            title: 'Invention of chess',
+            year: 570,
+            image: 'chess.png',
+        },
+        {
+            title: 'Invention of the hourglass',
+            year: 900,
+            image: 'hourglass.png',
+        },
+        {
+            title: 'Invention of the toothbrush',
+            year: 1_498,
+            image: 'toothbrush.png',
+        },
+        {
+            title: 'Great fire of london',
+            year: 1_666,
+            image: 'london-fire.png',
+        },
+        {
+            title: 'Invention of the steam engine',
+            year: 1_712,
+            image: 'steam-engine.png',
+        },
+        {
+            title: 'Invention of shampoo',
+            year: 1_814,
+            image: 'shampoo.png',
+        },
+        {
+            title: 'Invention of the revolver',
+            year: 1_836,
+            image: 'revolver.png',
+        },
+    ]
+
+    /**
+     * This object will contain the game state
+     *
+     * @typedef {{
+     * title: string,
+     * year: number,
+     * image: string,
+     * }} Card
+     *
+     * @type {{
+     * deck: Card[],
+     * board: Card[],
+     * hand: Card[],
+     * }}
+     */
+    const game = {
+        deck: JSON.parse(JSON.stringify(data)),
+        board: [],
+        hand: [],
+    }
+    
+    // ------------------------------------
+    //          1. START THE GAME
+    // ------------------------------------
+    setTimeout(() => {
+        // alert('Drag the cards from your hand to the board, sorting them by date! \n Try to get the highest score possible!')
+        assignEventListeners()
+        // pickCardsFromDeck(3)
+    }, 200)
+
+    // ------------------------------------
+    //                UTILS
+    // ------------------------------------
+    function pickCardsFromDeck(quantity) {
+        while (quantity > 0) {
+            // Pick a random card from the deck
+            const index = Math.floor(Math.random() * game.deck.length)
+
+            // Move the card from the deck to the hand
+            gameData.update(data => {
+                data.hand.push(data.deck[index])
+                data.deck.splice(index, 1)
+                return data
+            })
+
+            quantity--
+        }
+    }
+
+    function startingCard() {
+        // Pick a random card from the deck
+        const index = Math.floor(Math.random() * game.deck.length)
+
+        // Move the card from the deck to the board
+        gameData.update(data => {
+            data.board.push(data.deck[index])
+            data.deck.splice(index, 1)
+            return data
+        })
+    }
+
+    // Each time we modify the DOM, we need to assign the event listeners again
+    function assignEventListeners() {
+        // https://www.youtube.com/watch?v=jfYWwQrtzzY
+        // The cards that can be dragged (the ones in your hand)
+        const draggables = document.querySelectorAll('.draggable')
+
+        // The containers where you can drop the cards (hand and board)
+        const containers = document.querySelectorAll('.draggable-box')
+
+        draggables.forEach(draggable => {
+            draggable.addEventListener('dragstart', () => {
+                draggable.classList.add('dragging')
+            })
+
+            draggable.addEventListener('dragend', () => {
+                draggable.classList.remove('dragging')
+
+                // After dropping any card
+                validateCardsSorting()
+            })
+        })
+
+        containers.forEach(container => {
+            container.addEventListener('dragover', e => {
+                // Allow the drop
+                e.preventDefault()
+
+                const afterElement = getDragAfterElement(container, e.clientX)
+                const draggable = document.querySelector('.dragging')
+
+                if (afterElement) {
+                    // Insert the card in a certain position (start or middle)
+                    container.insertBefore(draggable, afterElement)
+                } else {
+                    // Push the card at the end of the container
+                    container.appendChild(draggable)
+                }
+            })
+        })
+    }
+
+    // Delete all event listeners from the cards and containers
+    function cleanEventListeners() {
+        const draggables = document.querySelectorAll('.draggable')
+        const containers = document.querySelectorAll('.draggable-box')
+
+        draggables.forEach(draggable => {
+            const new_element = draggable.cloneNode(true)
+            draggable.parentNode.replaceChild(new_element, draggable)
+        })
+
+        containers.forEach(container => {
+            const new_element = container.cloneNode(true)
+            container.parentNode.replaceChild(new_element, container)
+        })
+    }
+
+    // Allow to place the card between two specific cards inside the container
+    function getDragAfterElement(container, x) {
+        // Get all draggable elements except the one that is being dragged
+        const cards = [...container.querySelectorAll('.card:not(.dragging)')]
+
+        return cards.reduce(
+            (closest, nextChild) => {
+                const box = nextChild.getBoundingClientRect()
+                const offset = x - box.left - box.width / 2
+
+                // If the offset is negative, the card is above the middle of the card
+                // If the offset is positive, the card is below the middle of the card
+                if (offset < 0 && offset > closest.offset) {
+                    return { offset: offset, element: nextChild }
+                } else {
+                    return closest
+                }
+            },
+            { offset: Number.NEGATIVE_INFINITY, element: undefined },
+        ).element
+    }
+
+    // Check if the cards on the board are sorted correctly
+    function validateCardsSorting() {
+        const cards = [...document.getElementById('board').querySelectorAll('.card')]
+
+        if (cards.length <= 1) return
+
+        // Get the dates for each card
+        cards.forEach(card => {
+            if (card.querySelector('p').textContent === '?') {
+                const card_data = game.cards_copy.find(c => c.title === card.querySelector('h2').textContent)
+                card.querySelector('p').textContent = String(card_data.year)
+            }
+        })
+
+        cards.map(card => Number(card.querySelector('p').textContent))
+        const result = cards.reduce((prev, curr) => {
+            if (Number(prev.querySelector('p').textContent) > Number(curr.querySelector('p').textContent)) {
+                // The cards are not sorted correctly
+                gameData.update(data => {
+                    data.modal = 'game over'
+                    return data
+                })
+            } else {
+                // The cards are sorted correctly
+                return curr
+            }
+        })
+    }
+
+</script>

@@ -1,10 +1,17 @@
-<script lang="ts">
-    import type { Card } from '../data/data'
-    import Image from './Image.svelte'
+---
+import Image from './Image.astro'
 
-    export let card: Card
-    export let showYear: boolean = false
-</script>
+interface Props {
+	card: {
+    title: string
+    year: number
+    image: string
+}
+	showYear: boolean
+}
+
+const { card, showYear } = Astro.props;
+---
 
 <div
     class="bg-zinc-700 w-48 h-full p-2 rounded shadow card draggable cursor-move flex flex-col items-center justify-center"
