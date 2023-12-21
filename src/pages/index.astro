@@ -316,5 +316,21 @@ const styles = {
                 return curr
             }
         })
+
+        if (result === false) {
+            // The cards are not sorted correctly
+            alert('You lost!')
+            // gameData.update(data => ({ ...data, modal: 'game over' }))
+        } else {
+            // The cards are sorted correctly
+            // 1. Remove the .draggable class from the cards in the board
+            const cards = document.getElementById('board').querySelectorAll('.card')
+            cards.forEach(card => {
+                card.classList.remove('draggable')
+                card.classList.remove('cursor-move')
+                card.classList.add('border')
+                card.draggable = false
+            })
+        }
     }
 </script>
