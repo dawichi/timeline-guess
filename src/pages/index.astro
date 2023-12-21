@@ -146,8 +146,10 @@ const styles = {
     // ------------------------------------
     setTimeout(() => {
         // alert('Drag the cards from your hand to the board, sorting them by date! \n Try to get the highest score possible!')
-        assignEventListeners()
-        // pickCardsFromDeck(3)
+        // assignEventListeners()
+        const quantity = 3
+        pickCardsFromDeck(quantity)
+        renderNewCardsInHand(game.hand.slice(-quantity))
     }, 200)
 
     // ------------------------------------
@@ -157,13 +159,10 @@ const styles = {
         while (quantity > 0) {
             // Pick a random card from the deck
             const index = Math.floor(Math.random() * game.deck.length)
+            const card = game.deck.splice(index, 1)[0]
 
-            // Move the card from the deck to the hand
-            gameData.update(data => {
-                data.hand.push(data.deck[index])
-                data.deck.splice(index, 1)
-                return data
-            })
+            // Insert it in the hand
+            game.hand.push(card)
 
             quantity--
         }
