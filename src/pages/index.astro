@@ -11,12 +11,10 @@ const styles = {
 
     <!-- Here the cards will appear, you can sort them freely -->
     <h1 class='my-4 font-bold'>PLAYER'S HAND</h1>
-    <!-- {$gameData.hand.map(x => x.title)} -->
     <section id='hand' class='draggable-box flex gap-4 overflow-x-auto bg-zinc-800 p-8'></section>
 
     <!-- Here you need to place the cards sorted to gain points -->
     <h1 class='my-4 font-bold'>BOARD</h1>
-    <!-- {$gameData.board.map(x => x.title)} -->
     <section id='board' class='draggable-box flex gap-4 overflow-x-auto bg-zinc-800 p-8'></section>
 
     <!-- <button on:click={() => gameData.update(data => ({ ...data, modal: 'game over' }))}>almendra</button> -->
@@ -142,7 +140,7 @@ const styles = {
         board: [],
         hand: [],
     }
-    
+
     // ------------------------------------
     //          1. START THE GAME
     // ------------------------------------
