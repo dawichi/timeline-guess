@@ -204,18 +204,6 @@ const styles = {
         assignEventListeners()
     }
 
-    function startingCard() {
-        // Pick a random card from the deck
-        const index = Math.floor(Math.random() * game.deck.length)
-
-        // Move the card from the deck to the board
-        gameData.update(data => {
-            data.board.push(data.deck[index])
-            data.deck.splice(index, 1)
-            return data
-        })
-    }
-
     // Each time we modify the DOM, we need to assign the event listeners again
     function assignEventListeners() {
         // https://www.youtube.com/watch?v=jfYWwQrtzzY
@@ -323,5 +311,4 @@ const styles = {
             }
         })
     }
-
 </script>
