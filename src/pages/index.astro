@@ -234,7 +234,9 @@ import Layout from '../layouts/Layout.astro'
     // ------------------------------------
     //          1. START THE GAME
     // ------------------------------------
-    setTimeout(() => {
+    setTimeout(() => startGame(), 200)
+
+    function startGame() {
         // Update the record
         document.getElementById('record-points').textContent = db.getRecord() ?? 0
 
@@ -245,7 +247,7 @@ import Layout from '../layouts/Layout.astro'
         const initial_cards_in_board = 1
         pickCardsFromDeck(initial_cards_in_board, 'board')
         renderNewCardsIn('board', game.board.slice(-initial_cards_in_board))
-    }, 200)
+    }
 
     // ------------------------------------
     //             GAME UTILS
@@ -404,6 +406,18 @@ import Layout from '../layouts/Layout.astro'
         ).element
     }
 
+    function resetGame() {
+        db.setCurrent(0)
+        document.getElementById('current-points').textContent = 0
+
+        game.deck = JSON.parse(JSON.stringify(data))
+        game.board = []
+        game.hand = []
+
+        document.getElementById('hand').innerHTML = ''
+        document.getElementById('board').innerHTML = ''
+    }
+
     // Check if the cards on the board are sorted correctly
     function validateCardsSorting() {
         const cards = [...document.getElementById('board').querySelectorAll('.card')]
@@ -443,7 +457,11 @@ import Layout from '../layouts/Layout.astro'
                 currentRecord.textContent = db.getCurrent()
             }
 
-            setTimeout(() => alert('Ohh... You lost!'), 200)
+            setTimeout(() => {
+                alert('Ohh... You lost!')
+                resetGame()
+                startGame()
+            }, 200)
         } else {
             // The cards are sorted correctly
             // 1. Remove the .draggable class from the cards in the board
