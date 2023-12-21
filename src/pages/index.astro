@@ -385,8 +385,14 @@ import Layout from '../layouts/Layout.astro'
 
         if (result === false) {
             // The cards are not sorted correctly
-            alert('You lost!')
-            // gameData.update(data => ({ ...data, modal: 'game over' }))
+            // Update the record properly
+            if (Number(db.getRecord() ?? 0) < Number(db.getCurrent())) {
+                db.setRecord(db.getCurrent())
+                const currentRecord = document.getElementById('record-points')
+                currentRecord.textContent = db.getCurrent()
+            }
+
+            setTimeout(() => alert('Ohh... You lost!'), 200)
         } else {
             // The cards are sorted correctly
             // 1. Remove the .draggable class from the cards in the board
@@ -397,6 +403,21 @@ import Layout from '../layouts/Layout.astro'
                 card.classList.add('border')
                 card.draggable = false
             })
+
+            // 2. Update the points, counting the number of cards in the board - 1
+            const board = document.getElementById('board')
+            const points = board.querySelectorAll('.card').length - 1
+            const currentPoints = document.getElementById('current-points')
+
+            db.setCurrent(points)
+            currentPoints.textContent = points
+
+            // 3. Pick new cards from the deck, if the hand is empty
+            const hand = document.getElementById('hand')
+            if (hand.querySelectorAll('.card').length === 0) {
+                pickCardsFromDeck(5, 'hand')
+                renderNewCardsIn('hand', game.hand.slice(-5))
+            }
         }
     }
 </script>
