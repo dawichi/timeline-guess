@@ -11,6 +11,11 @@ export const data: Card[] = [
         image: 'bees.png',
     },
     {
+        title: 'Control of fire',
+        year: -600_000,
+        image: 'fire.png',
+    },
+    {
         title: 'First cave paintings',
         year: -45_000,
         image: 'cave-paintings.png',
@@ -91,9 +96,24 @@ export const data: Card[] = [
         image: 'toothbrush.png',
     },
     {
+        title: 'Invention of the refracting telescope',
+        year: 1_609,
+        image: 'telescope.png',
+    },
+    {
         title: 'Great fire of london',
         year: 1_666,
         image: 'london-fire.png',
+    },
+    {
+        title: 'Croissant creation',
+        year: 1_683,
+        image: 'croissant.png',
+    },
+    {
+        title: 'Eruption of mount fuji',
+        year: 1_707,
+        image: 'mount-fuji.png',
     },
     {
         title: 'Invention of the steam engine',
@@ -109,6 +129,11 @@ export const data: Card[] = [
         title: 'First hot air balloon',
         year: 1_783,
         image: 'hot-air-balloon.png',
+    },
+    {
+        title: 'Declaration of the Rights of Man and of the Citizen',
+        year: 1_789,
+        image: 'declaration-man-citizen.png',
     },
     {
         title: 'Invention of preserves',
@@ -131,6 +156,11 @@ export const data: Card[] = [
         image: 'revolver.png',
     },
     {
+        title: 'Battle of the Alamo',
+        year: 1_836,
+        image: 'alamo.png',
+    },
+    {
         title: 'California gold rush begins',
         year: 1_848,
         image: 'gold-rush.png',
@@ -139,6 +169,11 @@ export const data: Card[] = [
         title: 'Invention of jeans',
         year: 1_873,
         image: 'jeans.png',
+    },
+    {
+        title: 'Invention of the telephone',
+        year: 1_876,
+        image: 'telephone.png',
     },
     {
         title: 'Invention of the light bulb',
@@ -166,9 +201,39 @@ export const data: Card[] = [
         image: 'zeppelin.png',
     },
     {
+        title: 'Invention of the crossword',
+        year: 1_913,
+        image: 'crossword.png',
+    },
+    {
+        title: 'Invention of the TV',
+        year: 1_925,
+        image: 'tv.png',
+    },
+    {
+        title: 'Black Thursday - Wall Street Crash',
+        year: 1_929,
+        image: 'wall-street.png',
+    },
+    {
         title: 'First fifa world cup',
         year: 1_930,
         image: 'fifa.png',
+    },
+    {
+        title: 'WWII begins',
+        year: 1_939,
+        image: 'wwii.png',
+    },
+    {
+        title: 'Invention of the videoconsole',
+        year: 1_972,
+        image: 'videoconsole.png',
+    },
+    {
+        title: 'First laptop',
+        year: 1_981,
+        image: 'laptop.png',
     },
     {
         title: 'Chernobyl accident',
@@ -176,8 +241,18 @@ export const data: Card[] = [
         image: 'chernobyl.png',
     },
     {
+        title: 'Fall of the Berlin Wall',
+        year: 1_989,
+        image: 'berlin-wall.png',
+    },
+    {
         title: 'Titanic movie premiere',
         year: 1_997,
         image: 'titanic-movie.png',
+    },
+    {
+        title: 'Kasparov defeated by Deep Blue',
+        year: 1_997,
+        image: 'deep-blue.png',
     },
 ]
